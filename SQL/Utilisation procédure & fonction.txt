@@ -1,0 +1,11 @@
+PROCEDURE louer_jeu :
+
+CALL louer_jeu(1, 3, '2025-04-01');
+
+PROCEDURE retourner_jeu :
+
+CALL retourner_jeu(1, 3, '2025-04-07');
+
+FUNCTION est_disponible :
+
+SELECT est_disponible(3);

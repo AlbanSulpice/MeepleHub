@@ -1,0 +1,76 @@
+DELIMITER $$
+
+CREATE PROCEDURE louer_jeu(
+    IN p_id_utilisateur INT,
+    IN p_id_jeu INT,
+    IN p_date_debut DATE
+)
+BEGIN
+    DECLARE available INT;
+
+    -- Vérifier la quantité disponible
+    SELECT quantite_disponible INTO available FROM jeu WHERE id_jeu = p_id_jeu;
+
+    IF available > 0 THEN
+        -- Insérer la location
+        INSERT INTO location (id_utilisateur, id_jeu, date_debut) 
+        VALUES (p_id_utilisateur, p_id_jeu, p_date_debut);
+
+        -- Mettre à jour la quantité disponible
+        UPDATE jeu 
+        SET quantite_disponible = quantite_disponible - 1 
+        WHERE id_jeu = p_id_jeu;
+    ELSE
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Impossible de louer ce jeu : plus d\'exemplaires disponibles';
+    END IF;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE PROCEDURE retourner_jeu(
+    IN p_id_utilisateur INT,
+    IN p_id_jeu INT,
+    IN p_date_retour DATE
+)
+BEGIN
+    -- Vérifier si une location en cours existe
+    IF EXISTS (
+        SELECT 1 FROM location 
+        WHERE id_utilisateur = p_id_utilisateur 
+        AND id_jeu = p_id_jeu 
+        AND date_fin IS NULL
+    ) THEN
+        -- Mettre à jour la date de fin de location
+        UPDATE location
+        SET date_fin = p_date_retour
+        WHERE id_utilisateur = p_id_utilisateur 
+        AND id_jeu = p_id_jeu 
+        AND date_fin IS NULL
+        LIMIT 1;
+
+        -- Mettre à jour la quantité disponible
+        UPDATE jeu 
+        SET quantite_disponible = quantite_disponible + 1 
+        WHERE id_jeu = p_id_jeu;
+    ELSE
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Aucune location en cours pour ce jeu.';
+    END IF;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE FUNCTION est_disponible(p_id_jeu INT) RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+    DECLARE available INT;
+
+    SELECT quantite_disponible INTO available FROM jeu WHERE id_jeu = p_id_jeu;
+
+    RETURN available > 0;
+END$$
+
+DELIMITER ;
