@@ -1,0 +1,38 @@
+-- Vue 1 : Liste des jeux disponibles
+CREATE VIEW vue_jeux_disponibles AS
+SELECT 
+    id_jeu,
+    nom,
+    description,
+    duree,
+    nb_joueurs_min,
+    nb_joueurs_max,
+    quantite_disponible
+FROM jeu
+WHERE quantite_disponible > 0;
+
+-- Vue 2 : Historique des locations (uniquement les locations terminées)
+CREATE VIEW vue_historique_locations AS
+SELECT 
+    l.id_location,
+    u.nom AS utilisateur,
+    j.nom AS jeu,
+    l.date_debut,
+    l.date_fin
+FROM location l
+JOIN utilisateur u ON l.id_utilisateur = u.id_utilisateur
+JOIN jeu j ON l.id_jeu = j.id_jeu
+WHERE l.date_fin IS NOT NULL;
+
+-- Vue 3 : Jeux les mieux notés (moyenne des notes par jeu)
+CREATE VIEW vue_jeux_mieux_notes AS
+SELECT 
+    j.id_jeu,
+    j.nom,
+    COUNT(n.id_note) AS nombre_de_notes,
+    AVG(n.valeur) AS moyenne_notes
+FROM jeu j
+LEFT JOIN note n ON j.id_jeu = n.id_jeu
+GROUP BY j.id_jeu, j.nom
+HAVING COUNT(n.id_note) > 0
+ORDER BY moyenne_notes DESC;
