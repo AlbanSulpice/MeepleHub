@@ -1,0 +1,3 @@
+CREATE UNIQUE INDEX idx_utilisateur_email ON utilisateur(email);
+CREATE INDEX idx_location_id_jeu ON location(id_jeu);
+CREATE INDEX idx_note_id_jeu_valeur ON note(id_jeu, valeur);
