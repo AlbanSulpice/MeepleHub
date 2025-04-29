@@ -1,0 +1,92 @@
+/* Style général */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../images/hero-ludotheque.webp') no-repeat center center fixed;
+    background-size: cover;
+    color: #c7d5e0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Conteneur de connexion */
+  .login-container {
+    background-color: rgba(27, 40, 56, 0.95); /* effet semi-transparent */
+    padding: 2.5rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  }
+  
+  /* Titre */
+  .login-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #ffffff;
+  }
+  
+  /* Champs de formulaire */
+  .login-container input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background-color: #2a475e;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+  }
+  
+  .login-container input::placeholder {
+    color: #c7d5e0;
+  }
+  
+  /* Bouton de connexion */
+  .login-container button {
+    width: 100%;
+    background-color: #66c0f4;
+    color: #1b2838;
+    border: none;
+    padding: 0.75rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-container button:hover {
+    background-color: #549dcf;
+  }
+  
+  /* Lien inscription */
+  .login-container p {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .login-container a {
+    color: #66c0f4;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .login-container a:hover {
+    text-decoration: underline;
+  }
+/* Header */
+header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  header .logo {
+    height: 50px;
+  }  
