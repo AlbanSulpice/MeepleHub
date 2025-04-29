@@ -1,3 +1,6 @@
+// js/auth.js
+
+// --- LOGIN ---
 const loginForm = document.getElementById('login-form');
 
 if (loginForm) {
@@ -13,7 +16,7 @@ if (loginForm) {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, mot_de_passe }) // clé "mot_de_passe" et pas "password"
+        body: JSON.stringify({ email, mot_de_passe })
       });
 
       const data = await response.json();
@@ -21,9 +24,50 @@ if (loginForm) {
       if (response.ok) {
         localStorage.setItem('token', data.token); // Stocker le token
         alert('Connexion réussie ✅');
-        window.location.href = 'games.html'; // Redirection vers une page protégée
+        window.location.href = 'games.html';
       } else {
-        alert(data.message); // Affiche le message d'erreur du serveur
+        alert(data.message);
+      }
+
+    } catch (error) {
+      console.error('Erreur:', error);
+    }
+  });
+}
+
+// --- REGISTER ---
+const registerForm = document.getElementById('register-form');
+
+if (registerForm) {
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nom = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mot_de_passe = document.getElementById('password').value.trim();
+    const confirmPassword = document.getElementById('confirm-password').value.trim();
+
+    if (mot_de_passe !== confirmPassword) {
+      alert('Les mots de passe ne correspondent pas.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nom, email, mot_de_passe })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Inscription réussie ✅');
+        window.location.href = 'login.html'; // Redirection après inscription
+      } else {
+        alert(data.message);
       }
 
     } catch (error) {
