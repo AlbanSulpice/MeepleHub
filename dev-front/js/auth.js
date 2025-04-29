@@ -24,7 +24,7 @@ if (loginForm) {
       if (response.ok) {
         localStorage.setItem('token', data.token); // Stocker le token
         alert('Connexion réussie ✅');
-        window.location.href = 'games.html';
+        window.location.href = 'index.html';
       } else {
         alert(data.message);
       }
