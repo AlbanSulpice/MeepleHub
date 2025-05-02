@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Détails du Jeu</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* CSS hérité du catalogue (repris comme demandé) */
+    body {
+      background-color: #1b2838;
+      color: #c7d5e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+    }
+
+    .game-details {
+      max-width: 800px;
+      margin: 4rem auto;
+      background-color: #2a475e;
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    .game-details img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .game-details h1 {
+      color: #66c0f4;
+      margin-bottom: 1rem;
+    }
+
+    .game-details p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .actions {
+      margin-top: 2rem;
+    }
+
+    .actions button {
+      padding: 0.7rem 1.5rem;
+      background-color: #66c0f4;
+      border: none;
+      color: #1b2838;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+
+    .actions button:hover {
+      background-color: #549dcf;
+    }
+
+    header {
+      background-color: #171a21;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header .logo {
+      height: 50px;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    header nav a {
+      color: #c7d5e0;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    header nav a:hover {
+      color: #66c0f4;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html"><img src="../images/logo.webp" alt="Logo ludothèque" class="logo" loading="lazy"></a>
+    <nav>
+      <ul>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="login.html" id="login-link">Connexion</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Déconnexion</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="game-details">
+    <img id="game-image" src="" alt="Image du jeu">
+    <h1 id="game-title">Nom du jeu</h1>
+    <p id="game-description">Description du jeu...</p>
+    <p><strong>Catégorie :</strong> <span id="game-category">...</span></p>
+    <p><strong>Durée :</strong> <span id="game-duration">...</span> minutes</p>
+
+    <div class="actions connected-only" style="display: none;">
+      <button id="like-btn">❤️ Liker</button>
+      <button id="rent-btn">📦 Louer</button>
+      <button id="rate-btn">⭐ Noter</button>
+    </div>
+  </main>
+
+  <script src="../js/jeu.js"></script>
+</body>
+</html>
