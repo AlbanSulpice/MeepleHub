@@ -75,3 +75,18 @@ if (registerForm) {
     }
   });
 }
+
+// --- LOGOUT ---
+const logoutBtn = document.getElementById('logout-btn');
+
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      await fetch('http://localhost:3000/api/auth/logout', { method: 'POST' });
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+    } catch (err) {
+      console.error('Erreur de déconnexion :', err);
+    }
+  });
+}

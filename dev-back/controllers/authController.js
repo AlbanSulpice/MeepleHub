@@ -44,3 +44,7 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.logout = async (req, res) => {
+  res.json({ message: 'Déconnexion réussie 👋' });
+};
