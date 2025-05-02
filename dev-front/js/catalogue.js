@@ -1,8 +1,4 @@
 const container = document.querySelector('.game-grid');
-const token = localStorage.getItem('token');
-const welcome = document.getElementById('welcome-message');
-const logoutLink = document.getElementById('logout-link');
-const loginLink = document.getElementById('login-link');
 
 // --- Utilitaire : transforme un nom en nom d'image ---
 function slugify(nom) {
@@ -12,47 +8,6 @@ function slugify(nom) {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9\-]/g, '');
-}
-
-// --- Gère les boutons connexion/déconnexion + message ---
-if (token) {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    if (welcome && payload.nom) {
-      welcome.textContent = `Bienvenue ${payload.nom} !`;
-    }
-
-    document.querySelectorAll('.connected-only').forEach(btn => {
-      btn.style.display = 'inline-block';
-    });
-
-    if (logoutLink) {
-      logoutLink.style.display = 'inline-block';
-      logoutLink.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await fetch('http://localhost:3000/api/auth/logout', { method: 'POST' });
-        localStorage.removeItem('token');
-        window.location.href = 'index.html';
-      });
-    }
-
-    if (loginLink) loginLink.style.display = 'none';
-
-  } catch (e) {
-    console.error('Token invalide');
-    localStorage.removeItem('token');
-  }
-} else {
-  if (welcome) {
-    welcome.textContent = `Bienvenue sur le catalogue MeepleHub !`;
-  }
-
-  document.querySelectorAll('.connected-only').forEach(btn => {
-    btn.style.display = 'none';
-  });
-
-  if (logoutLink) logoutLink.style.display = 'none';
-  if (loginLink) loginLink.style.display = 'inline-block';
 }
 
 // --- Création dynamique des cartes jeux ---
