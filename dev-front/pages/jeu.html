@@ -6,7 +6,6 @@
   <title>Détails du Jeu</title>
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-    /* CSS hérité du catalogue (repris comme demandé) */
     body {
       background-color: #1b2838;
       color: #c7d5e0;
@@ -57,6 +56,23 @@
 
     .actions button:hover {
       background-color: #549dcf;
+    }
+
+    #rating-stars {
+      font-size: 2rem;
+      margin-top: 1rem;
+      display: flex;
+    }
+
+    #rating-stars .star {
+      cursor: pointer;
+      color: gold;
+      margin: 0 4px;
+      transition: transform 0.2s;
+    }
+
+    #rating-stars .star:hover {
+      transform: scale(1.2);
     }
 
     header {
@@ -116,9 +132,16 @@
     <p><strong>Durée :</strong> <span id="game-duration">...</span> minutes</p>
 
     <div class="actions connected-only" style="display: none;">
-        <button id="like-btn" class="connected-only" style="display: none;">❤️ Liker</button>
-        <button id="rent-btn" class="connected-only" style="display: none;">📦 Louer</button>
-        <button id="rate-btn" class="connected-only" style="display: none;">⭐ Noter</button>
+      <button id="like-btn" class="connected-only" style="display: none;">❤️ Liker</button>
+      <button id="rent-btn" class="connected-only" style="display: none;">📦 Louer</button>
+    </div>
+
+    <div id="rating-stars" class="connected-only" style="display: none;">
+      <span class="star" data-value="1">☆</span>
+      <span class="star" data-value="2">☆</span>
+      <span class="star" data-value="3">☆</span>
+      <span class="star" data-value="4">☆</span>
+      <span class="star" data-value="5">☆</span>
     </div>
   </main>
 

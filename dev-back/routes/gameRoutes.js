@@ -2,23 +2,19 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 const { verifyToken } = require('../middlewares/authMiddleware');
+const gameController = require('../controllers/gameController');
 
 
-router.get('/', async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM jeu');
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Erreur serveur' });
-  }
-});
+//Gestion des tri
+router.get('/', gameController.getAllGames);
 
+//Gestion des avis
+router.get('/rating/:id_jeu', verifyToken, gameController.getUserRating);
+
+router.post('/rating/:id_jeu', verifyToken, gameController.rateGame);
 
 // Liker un jeu
 router.post('/like', verifyToken, async (req, res) => {
-  console.log("TOKEN PAYLOAD DECODED >>>", req.user); // 👈 ajoute ça
-
   const id_utilisateur = req.user.id;
   const { id_jeu } = req.body;
 
@@ -62,6 +58,28 @@ router.get('/liked', verifyToken, async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error(err);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
+
+// Retirer un jeu des likes
+router.delete('/like/:id_jeu', verifyToken, async (req, res) => {
+  const id_utilisateur = req.user.id;
+  const id_jeu = req.params.id_jeu;
+
+  try {
+    const [result] = await db.query(
+      'DELETE FROM jeu_favori WHERE id_utilisateur = ? AND id_jeu = ?',
+      [id_utilisateur, id_jeu]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Ce jeu n'est pas dans vos likes." });
+    }
+
+    res.json({ message: 'Jeu retiré des favoris ❌' });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });

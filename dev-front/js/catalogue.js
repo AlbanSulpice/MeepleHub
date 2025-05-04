@@ -20,47 +20,61 @@ function createCard(game) {
     <p>${game.description}</p>
     <a href="jeu.html?id=${game.id_jeu}">Voir détails</a>
   `;
+
+  // ❤️ Ajout visuel du nombre de likes
+  const likesEl = document.createElement('p');
+  likesEl.textContent = `❤️ ${game.nb_likes || 0} likes`;
+  likesEl.style.marginTop = '0.5rem';
+  likesEl.style.fontWeight = 'bold';
+  likesEl.style.color = '#fff';
+  div.appendChild(likesEl);
+
   return div;
 }
 
-// --- Chargement depuis l’API ---
 let loadedCards = [];
 
 async function loadGames() {
   try {
     const res = await fetch('http://localhost:3000/api/games');
     const games = await res.json();
-    container.innerHTML = ''; // vide la grille
 
-    games.forEach(game => {
+    loadedCards = games.map(game => {
       const card = createCard(game);
-      container.appendChild(card);
-      loadedCards.push({ game, card }); // stocke pour le tri
+      return { game, card };
     });
+
+    // 🟢 Affiche les jeux dans l’ordre brut reçu (pas trié)
+    container.innerHTML = '';
+    loadedCards.forEach(({ card }) => container.appendChild(card));
+
   } catch (err) {
     console.error('Erreur chargement jeux :', err);
   }
 }
 
-// --- Tri local (fictif pour l'instant) ---
+// --- Tri local déclenché par l'utilisateur ---
 function sortGames(criteria) {
   let sorted = [];
 
   if (criteria === 'popularity') {
-    sorted = loadedCards;
+    sorted = [...loadedCards].sort((a, b) => (b.game.nb_likes || 0) - (a.game.nb_likes || 0));
   } else if (criteria === 'rating') {
-    sorted = [...loadedCards].sort(() => Math.random() - 0.5);
+    sorted = [...loadedCards].sort((a, b) => (b.game.note_moyenne || 0) - (a.game.note_moyenne || 0));
   } else if (criteria === 'duration') {
-    sorted = [...loadedCards].sort(() => Math.random() - 0.5);
+    sorted = [...loadedCards].sort((a, b) => (a.game.duree || 0) - (b.game.duree || 0));
+  } else {
+    sorted = loadedCards;
   }
 
   container.innerHTML = '';
   sorted.forEach(({ card }) => container.appendChild(card));
 }
 
+// --- Écouteur sur la liste déroulante ---
 document.getElementById('sort').addEventListener('change', (e) => {
   sortGames(e.target.value);
 });
 
-// --- Lancement ---
+// --- Chargement initial brut ---
 loadGames();

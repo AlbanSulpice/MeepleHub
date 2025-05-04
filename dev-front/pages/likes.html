@@ -70,6 +70,25 @@
       background-color: #549dcf;
     }
 
+    .actions {
+      margin-top: 1rem;
+    }
+
+    .actions button {
+      padding: 0.7rem 1.5rem;
+      background-color: #66c0f4;
+      border: none;
+      color: #1b2838;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+
+    .actions button:hover {
+      background-color: #549dcf;
+    }
+
     header {
       background-color: #171a21;
       display: flex;
@@ -115,7 +134,6 @@
         <li><a href="forum.html">Forum</a></li>
         <li><a href="login.html" id="login-link">Connexion</a></li>
         <li><a href="#" id="logout-link" style="display: none;">Déconnexion</a></li>
-        <li class="connected-only" style="display: none;"><a href="likes.html">❤️ Mes Likes</a></li>
       </ul>
     </nav>    
   </header>
@@ -126,7 +144,6 @@
   </div>
 
   <div class="game-grid" id="liked-games">
-    <!-- Jeux likés affichés ici -->
   </div>
 
   <script src="../js/session.js"></script>

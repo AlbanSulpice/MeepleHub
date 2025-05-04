@@ -10,14 +10,42 @@ function slugify(nom) {
 }
 
 function createCard(game) {
-  const div = document.createElement('div');
-  div.className = 'game-card';
-  div.innerHTML = `
-    <img src="../images/jeux/${slugify(game.nom)}.webp" alt="${game.nom}">
-    <h3>${game.nom}</h3>
-    <p>${game.description}</p>
-    <a href="jeu.html?id=${game.id_jeu}">Voir détails</a>
-  `;
+    const div = document.createElement('div');
+    div.className = 'game-card';
+    div.innerHTML = `
+        <img src="../images/jeux/${slugify(game.nom)}.webp" alt="${game.nom}">
+        <h3>${game.nom}</h3>
+        <p>${game.description}</p>
+        <a href="jeu.html?id=${game.id_jeu}">Voir détails</a>
+        <div class="actions">
+        <a href="#" class="remove-link">❌ Retirer</a>
+        </div>
+    `;
+
+    const removeLink = div.querySelector('.remove-link');
+    removeLink.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    try {
+        const res = await fetch(`http://localhost:3000/api/games/like/${game.id_jeu}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+        alert(data.message);
+        div.remove();
+        } else {
+        alert(data.message || "Erreur lors de la suppression");
+        }
+    } catch (err) {
+        console.error(err);
+    }
+    });
+
   return div;
 }
 
