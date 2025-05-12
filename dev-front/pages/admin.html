@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Interface Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    main {
+      max-width: 900px;
+      margin: 6rem auto 2rem;
+      background: #2a475e;
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    h2 {
+      color: #66c0f4;
+      margin-top: 2rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #66c0f4;
+    }
+
+    label {
+      display: block;
+      margin-top: 0.5rem;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      margin-top: 0.3rem;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      background-color: #66c0f4;
+      color: #1b2838;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #549dcf;
+    }
+
+    .user-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1b2838;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 5px;
+    }
+
+    .user-row span {
+      flex: 1;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <a href="index.html"><img src="../images/logo.webp" alt="Logo" class="logo"></a>
+    <nav>
+      <ul>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="#" id="logout-link">Déconnexion</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>🎛️ Interface d'administration</h1>
+
+    <!-- Ajouter un jeu -->
+    <section>
+      <h2>➕ Ajouter un jeu</h2>
+      <form id="add-form">
+        <label>Nom</label><input type="text" name="nom" required>
+        <label>Description</label><textarea name="description" required></textarea>
+        <label>Durée (min)</label><input type="number" name="duree" required>
+        <label>Joueurs minimum</label><input type="number" name="min" required>
+        <label>Joueurs maximum</label><input type="number" name="max" required>
+        <label>Quantité totale</label><input type="number" name="quantite" required>
+        <button type="submit">Ajouter</button>
+      </form>
+    </section>
+
+    <!-- Modifier un jeu -->
+    <section>
+      <h2>✏️ Modifier un jeu</h2>
+      <form id="edit-form">
+        <label>Jeu à modifier</label>
+        <select name="jeu" id="edit-select"></select>
+        <label>Nom</label><input type="text" name="nom" required>
+        <label>Description</label><textarea name="description" required></textarea>
+        <label>Durée</label><input type="number" name="duree" required>
+        <label>Joueurs min</label><input type="number" name="min" required>
+        <label>Joueurs max</label><input type="number" name="max" required>
+        <label>Quantité</label><input type="number" name="quantite" required>
+        <button type="submit">Mettre à jour</button>
+      </form>
+    </section>
+
+    <!-- Supprimer un jeu -->
+    <section>
+      <h2>🗑️ Supprimer un jeu</h2>
+      <form id="delete-form">
+        <label>Jeu à supprimer</label>
+        <select name="jeu" id="delete-select"></select>
+        <button type="submit">Supprimer</button>
+      </form>
+    </section>
+
+    <!-- Utilisateurs -->
+    <section>
+      <h2>👥 Utilisateurs</h2>
+      <div id="users-list"></div>
+    </section>
+  </main>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>

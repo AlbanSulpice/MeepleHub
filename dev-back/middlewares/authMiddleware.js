@@ -17,3 +17,9 @@ exports.verifyToken = (req, res, next) => {
     res.status(400).json({ message: 'Invalid Token.' });
   }
 };
+exports.verifyAdmin = (req, res, next) => {
+  if (!req.user || !req.user.is_admin) {
+    return res.status(403).json({ message: 'Accès refusé : admin requis' });
+  }
+  next();
+};
