@@ -13,6 +13,9 @@ router.get('/rating/:id_jeu', verifyToken, gameController.getUserRating);
 
 router.post('/rating/:id_jeu', verifyToken, gameController.rateGame);
 
+//Recommandation
+router.get('/recommendations', verifyToken, gameController.getRecommendations);
+
 // Liker un jeu
 router.post('/like', verifyToken, async (req, res) => {
   const id_utilisateur = req.user.id;

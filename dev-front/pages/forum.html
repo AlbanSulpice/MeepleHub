@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forum de Discussion</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    main {
+      max-width: 800px;
+      margin: 6rem auto 2rem;
+      background-color: #2a475e;
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #66c0f4;
+    }
+
+    #jeu-select {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-radius: 5px;
+      background-color: #1b2838;
+      color: #c7d5e0;
+      border: none;
+    }
+
+    #messages {
+      margin: 1rem 0;
+      max-height: 300px;
+      overflow-y: auto;
+      background-color: #1b2838;
+      border-radius: 5px;
+      padding: 1rem;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #66c0f4;
+      padding-bottom: 0.5rem;
+    }
+
+    .message .author {
+      font-weight: bold;
+      color: #66c0f4;
+    }
+
+    .message .date {
+      font-size: 0.8rem;
+      color: #aebacf;
+    }
+
+    #new-message {
+      margin-top: 1rem;
+    }
+
+    #new-message textarea {
+      width: 100%;
+      height: 100px;
+      padding: 0.75rem;
+      border-radius: 5px;
+      background-color: #1b2838;
+      border: none;
+      color: white;
+      resize: vertical;
+    }
+
+    #new-message button {
+      margin-top: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background-color: #66c0f4;
+      color: #1b2838;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #new-message button:hover {
+      background-color: #549dcf;
+    }
+
+    .warning {
+      color: orange;
+      text-align: center;
+      margin: 4rem auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <a href="index.html"><img src="../images/logo.webp" alt="Logo ludothèque" class="logo" loading="lazy"></a>
+    <nav>
+      <ul>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="recommandations.html">Recommandations</a></li>
+        <li><a href="forum.html">Forum</a></li>
+        <li class="connected-only" style="display: none;"><a href="likes.html">Likes</a></li>
+        <li><a href="login.html" id="login-link">Connexion</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Déconnexion</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Forum de Discussion</h1>
+
+    <div id="not-connected" class="warning" style="display: none;">
+      ⚠️ Veuillez vous connecter pour accéder au forum.
+    </div>
+
+    <div id="forum-content" style="display: none;">
+      <select id="jeu-select"></select>
+
+      <div id="messages"></div>
+
+      <div id="new-message">
+        <textarea id="message-input" placeholder="Écrivez votre message..."></textarea>
+        <button id="send-btn">Envoyer</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Ludothèque. Tous droits réservés.</p>
+  </footer>
+
+  <script src="../js/session.js"></script>
+  <script src="../js/forum.js"></script>
+</body>
+</html>

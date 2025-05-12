@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recommandations</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .catalogue-header {
+      text-align: center;
+      margin: 6rem auto 2rem;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .game-card {
+      background-color: #2a475e;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .game-card h3 {
+      margin-bottom: 0.5rem;
+      color: #66c0f4;
+    }
+
+    .game-card p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .warning {
+      color: orange;
+      text-align: center;
+      margin: 2rem auto;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <a href="index.html"><img src="../images/logo.webp" alt="Logo ludothèque" class="logo" loading="lazy"></a>
+    <nav>
+      <ul>
+        <li><a href="catalogue.html">Catalogue</a></li>
+        <li><a href="recommandations.html">Recommandations</a></li>
+        <li><a href="forum.html">Forum</a></li>
+        <li class="connected-only" style="display: none;"><a href="likes.html">Likes</a></li>
+        <li><a href="login.html" id="login-link">Connexion</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Déconnexion</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="catalogue-header">
+    <h1>🎯 Recommandations personnalisées</h1>
+    <p>Voici des jeux que vous pourriez aimer selon vos préférences !</p>
+  </div>
+
+  <div id="recommendation-warning" class="warning" style="display: none;">
+    Veuillez vous connecter pour voir vos recommandations personnalisées.
+  </div>
+
+  <div class="game-grid" id="recommendations"></div>
+
+  <footer>
+    <p>&copy; 2025 Ludothèque. Tous droits réservés.</p>
+  </footer>
+
+  <script src="../js/session.js"></script>
+  <script src="../js/recommendations.js"></script>
+</body>
+</html>

@@ -79,3 +79,40 @@ exports.getAllGames = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+exports.getRecommendations = async (req, res) => {
+  const id_utilisateur = req.user.id;
+
+  try {
+    // 1. Obtenir les jeux likés par l’utilisateur
+    const [likedRows] = await db.query(
+      'SELECT id_jeu FROM jeu_favori WHERE id_utilisateur = ?',
+      [id_utilisateur]
+    );
+    const likedIds = likedRows.map(row => row.id_jeu);
+
+    if (likedIds.length === 0) return res.json([]); // Aucun like = aucune recommandation
+
+    // 2. Obtenir les catégories de ces jeux
+    const [catRows] = await db.query(
+      'SELECT DISTINCT id_categorie FROM jeu_categorie WHERE id_jeu IN (?)',
+      [likedIds]
+    );
+    const catIds = catRows.map(row => row.id_categorie);
+
+    if (catIds.length === 0) return res.json([]);
+
+    // 3. Obtenir les jeux de ces catégories que l’utilisateur n’a pas déjà likés
+    const [recommended] = await db.query(`
+      SELECT DISTINCT j.*
+      FROM jeu j
+      JOIN jeu_categorie jc ON j.id_jeu = jc.id_jeu
+      WHERE jc.id_categorie IN (?)
+        AND j.id_jeu NOT IN (?)
+    `, [catIds, likedIds]);
+
+    res.json(recommended);
+  } catch (err) {
+    console.error("Erreur dans getRecommendations:", err);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};

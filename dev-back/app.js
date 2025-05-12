@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const app = express();
 const authRoutes = require('./routes/authRoutes');
 const gameRoutes = require('./routes/gameRoutes');
+const forumRoutes = require('./routes/forumRoutes');
+
 dotenv.config();
 
 // Middlewares
@@ -12,6 +14,7 @@ app.use(cors());
 app.use(express.json()); 
 app.use('/api/auth', authRoutes);
 app.use('/api/games', gameRoutes);
+app.use('/api/forum', forumRoutes);
 
 // Test route
 app.get('/', (req, res) => {
