@@ -33,6 +33,19 @@ exports.getMessagesByGame = async (req, res) => {
 exports.postMessage = async (req, res) => {
   const { id_jeu, message } = req.body;
   const id_utilisateur = req.user.id; // Important : nom identique à ta BDD
+  // Vérifier si l'utilisateur est bloqué
+const [rows] = await db.query(
+  'SELECT est_bloque FROM utilisateur WHERE id_utilisateur = ?',
+  [id_utilisateur]
+);
+
+if (rows.length === 0) {
+  return res.status(404).json({ message: 'Utilisateur introuvable' });
+}
+
+if (rows[0].est_bloque) {
+  return res.status(403).json({ message: 'Vous êtes bloqué et ne pouvez pas écrire dans le forum.' });
+}
 
   if (!id_jeu || !message) {
     return res.status(400).json({ message: 'Champs manquants' });

@@ -70,31 +70,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Poster un message
   async function envoyerMessage() {
-    const id_jeu = jeuSelect.value;
-    const message = messageInput.value.trim();
+  const id_jeu = jeuSelect.value;
+  const message = messageInput.value.trim();
 
-    if (!message) return;
+  if (!message) return;
 
-    try {
-      const res = await fetch(`${API_BASE}/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ id_jeu, message }),
-      });
+  try {
+    const res = await fetch(`${API_BASE}/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id_jeu, message }),
+    });
 
-      if (res.ok) {
-        messageInput.value = "";
-        chargerMessages(id_jeu);
+    const data = await res.json();
+
+    if (res.ok) {
+      messageInput.value = "";
+      chargerMessages(id_jeu);
+    } else {
+      if (res.status === 403 && data.message?.includes("bloqué")) {
+        alert("🚫 Vous avez été bloqué par un administrateur. Vous ne pouvez plus écrire dans le forum.");
       } else {
-        alert("Erreur lors de l’envoi du message.");
+        alert("❌ Erreur lors de l’envoi du message.");
       }
-    } catch (err) {
-      alert("Erreur réseau.");
     }
+  } catch (err) {
+    alert("🌐 Erreur réseau.");
   }
+}
+
 
   jeuSelect.addEventListener("change", () => {
     chargerMessages(jeuSelect.value);
