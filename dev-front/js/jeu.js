@@ -9,6 +9,7 @@ const image = document.getElementById('game-image');
 const description = document.getElementById('game-description');
 const category = document.getElementById('game-category');
 const duration = document.getElementById('game-duration');
+const averageRating = document.getElementById('game-rating');
 
 let currentGame = null;
 
@@ -42,12 +43,23 @@ function displayGame(game) {
   duration.textContent = game.duree + ' min';
   category.textContent = `${game.nb_joueurs_min} à ${game.nb_joueurs_max} joueurs`;
 
-  if (game.quantite_disponible < 1) {
-    const rentBtn = document.getElementById('rent-btn');
-    if (rentBtn) {
-      rentBtn.disabled = true;
-      rentBtn.textContent = 'Indisponible';
+  chargerNoteMoyenne(game.id_jeu);
+}
+
+async function chargerNoteMoyenne(id_jeu) {
+  try {
+    const res = await fetch(`http://localhost:3000/api/games/moyenne/${id_jeu}`);
+    const data = await res.json();
+
+    if (data.note_moyenne !== null && averageRating) {
+      averageRating.textContent = Number(data.note_moyenne).toFixed(1);
+
+    } else if (averageRating) {
+      averageRating.textContent = "Non noté";
     }
+  } catch (err) {
+    console.error("Erreur chargement moyenne :", err);
+    if (averageRating) averageRating.textContent = "Erreur";
   }
 }
 

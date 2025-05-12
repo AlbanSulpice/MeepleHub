@@ -12,6 +12,7 @@ router.get('/', gameController.getAllGames);
 router.get('/rating/:id_jeu', verifyToken, gameController.getUserRating);
 
 router.post('/rating/:id_jeu', verifyToken, gameController.rateGame);
+router.get('/moyenne/:id_jeu', gameController.getAverageRating);
 
 //Recommandation
 router.get('/recommendations', verifyToken, gameController.getRecommendations);

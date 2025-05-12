@@ -16,7 +16,7 @@ exports.getMessagesByGame = async (req, res) => {
   const { id_jeu } = req.params;
   try {
     const [rows] = await db.query(`
-      SELECT m.message, m.date_creation, u.nom
+      SELECT m.id, m.message, m.date_creation, m.id_utilisateur, u.nom
       FROM messages_forum m
       JOIN utilisateur u ON m.id_utilisateur = u.id_utilisateur
       WHERE m.id_jeu = ?
@@ -62,3 +62,30 @@ if (rows[0].est_bloque) {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+exports.deleteMessage = async (req, res) => {
+  const id_message = req.params.id;
+  const id_utilisateur = req.user.id;
+
+  try {
+    const [rows] = await db.query(
+      'SELECT id_utilisateur FROM messages_forum WHERE id = ?',
+      [id_message]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Message introuvable' });
+    }
+
+    if (rows[0].id_utilisateur !== id_utilisateur) {
+      return res.status(403).json({ message: 'Non autorisé à supprimer ce message' });
+    }
+
+    await db.query('DELETE FROM messages_forum WHERE id = ?', [id_message]);
+    res.json({ message: 'Message supprimé ✅' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur suppression message' });
+  }
+};
+

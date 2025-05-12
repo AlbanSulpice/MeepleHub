@@ -11,5 +11,6 @@ router.get('/messages/:id_jeu', forumController.getMessagesByGame);
 
 // Poster un message (authentification requise)
 router.post('/messages', verifyToken, forumController.postMessage);
-
+// Supprimer un message
+router.delete('/messages/:id', verifyToken, forumController.deleteMessage);
 module.exports = router;

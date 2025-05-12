@@ -116,3 +116,16 @@ exports.getRecommendations = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
+exports.getAverageRating = async (req, res) => {
+  const id_jeu = req.params.id_jeu;
+  try {
+    const [rows] = await db.query(
+      'SELECT ROUND(AVG(valeur), 1) AS note_moyenne FROM note WHERE id_jeu = ?',
+      [id_jeu]
+    );
+    res.json({ note_moyenne: rows[0].note_moyenne });
+  } catch (err) {
+    console.error('Erreur moyenne note :', err);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
