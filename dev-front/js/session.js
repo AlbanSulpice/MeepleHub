@@ -26,6 +26,39 @@ if (token) {
         localStorage.removeItem('token');
         window.location.href = 'index.html';
       });
+      const adminLink = document.getElementById('admin-link');
+const adminBadge = document.getElementById('admin-badge');
+
+if (payload.is_admin) {
+  if (adminBadge) adminBadge.style.display = 'inline';
+  if (adminLink) adminLink.style.display = 'none';
+} else {
+  if (adminLink) {
+    adminLink.style.display = 'inline-block';
+    adminLink.addEventListener('click', async () => {
+      const code = prompt("Entrez le code admin :");
+      if (!code) return;
+
+      const res = await fetch('http://localhost:3000/api/auth/promote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ code })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message);
+        window.location.reload();
+      } else {
+        alert(data.message);
+      }
+    });
+  }
+}
+
     }
 
     if (loginLink) loginLink.style.display = 'none';

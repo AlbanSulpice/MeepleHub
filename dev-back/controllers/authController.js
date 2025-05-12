@@ -35,11 +35,14 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id_utilisateur, nom: user.nom },
+      {
+        id: user.id_utilisateur,
+        nom: user.nom,
+        is_admin: user.is_admin // ✅ On ajoute is_admin dans le token
+      },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
-    
 
     res.json({ token });
   } catch (error) {
@@ -50,4 +53,21 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
   res.json({ message: 'Déconnexion réussie 👋' });
+};
+
+exports.promoteToAdmin = async (req, res) => {
+  const { code } = req.body;
+
+  // Code arbitraire
+  if (code !== 'admin42') {
+    return res.status(403).json({ message: 'Code incorrect' });
+  }
+
+  try {
+    await User.setAdmin(req.user.id);
+    res.json({ message: 'Tu es désormais admin 🔑' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
 };

@@ -11,10 +11,16 @@ const User = {
 
   findByEmail: async (email) => {
     const [rows] = await db.query(
-      'SELECT * FROM utilisateur WHERE email = ?',
+      'SELECT id_utilisateur, nom, email, mot_de_passe, is_admin FROM utilisateur WHERE email = ?',
       [email]
     );
     return rows[0];
+  },
+  setAdmin: async (id_utilisateur) => {
+    await db.query(
+      'UPDATE utilisateur SET is_admin = TRUE WHERE id_utilisateur = ?',
+      [id_utilisateur]
+    );
   }
 };
 
